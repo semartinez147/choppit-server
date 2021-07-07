@@ -1,6 +1,17 @@
 import logo from "./logo.svg";
 import './App.css';
 
+
+const getData = () => {
+  fetch('/api/messages/hello')
+  .then(res => (res.text()))
+  .then(data => {
+    console.log('getData', data)
+
+    return data
+  })
+}
+
 export function Home() {
   return (
       <div className="App">
@@ -15,7 +26,7 @@ export function Home() {
               target="_blank"
               rel="noopener noreferrer"
           >
-            Learn React
+            <p>{getData()}</p>
           </a>
         </header>
       </div>
