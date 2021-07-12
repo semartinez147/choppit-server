@@ -4,6 +4,8 @@ package com.semartinez.choppit.service;
 import com.semartinez.choppit.model.entity.AssemblyRecipe;
 import java.util.Optional;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class Kitchen {
 
@@ -29,8 +31,13 @@ public class Kitchen {
     return machine.generateStrings(validUrl, wantHtml);
   }
 
-  public Optional<AssemblyRecipe> processData(String ingredient, String instruction) {
-    return machine.process(ingredient, instruction);
+  public ResponseEntity<AssemblyRecipe> processData(AssemblyRecipe input) {
+    return ResponseEntity.of(machine.process(input));
+  }
+
+  public ResponseEntity<AssemblyRecipe> simmer(AssemblyRecipe input) {
+    AssemblyRecipe output = machine.process(input).get();
+    return new ResponseEntity<>(output, HttpStatus.OK);
   }
 
 

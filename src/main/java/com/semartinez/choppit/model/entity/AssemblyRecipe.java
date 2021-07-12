@@ -4,6 +4,8 @@ package com.semartinez.choppit.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.semartinez.choppit.view.FlatAssemblyRecipe;
+import com.semartinez.choppit.view.FlatIngredient;
+import com.semartinez.choppit.view.FlatStep;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,18 +21,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class AssemblyRecipe implements FlatAssemblyRecipe {
 
-  private static EntityLinks entityLinks;
   private Long recipeId = 0L;
   private String url = "";
   private String title = "";
   private Boolean favorite = false;
+  @JsonSerialize(contentAs = FlatStep.class)
   private List<Step> steps = new ArrayList<>();
+  @JsonSerialize(contentAs = FlatIngredient.class)
   private List<Ingredient> ingredients = new ArrayList<>();
   // fields for server interactions
   @JsonIgnore
   private Document document = new Document("");
   private List<String> reduction = new ArrayList<>();
-  private Map<String, String> samples = new HashMap<>();
+  private String sampleStep = "";
+  private String sampleIngredient = "";
 
   @NonNull
   public Long getRecipeId() {
@@ -102,16 +106,20 @@ public class AssemblyRecipe implements FlatAssemblyRecipe {
     this.reduction = reduction;
   }
 
-  public Map<String, String> getSamples() {
-    return samples;
+  public String getSampleStep() {
+    return sampleStep;
   }
 
-  public void setSamples(Map<String, String> samples) {
-    if (samples == null) {
-      samples = new HashMap<>();
-    }
-    this.samples.put("ingredient", samples.get("ingredient"));
-    this.samples.put("instruction", samples.get("instruction"));
+  public void setSampleStep(String sampleStep) {
+    this.sampleStep = sampleStep;
+  }
+
+  public String getSampleIngredient() {
+    return sampleIngredient;
+  }
+
+  public void setSampleIngredient(String sampleIngredient) {
+    this.sampleIngredient = sampleIngredient;
   }
 
 /*

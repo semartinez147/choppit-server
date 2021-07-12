@@ -29,10 +29,10 @@ public class RecipeController {
     this.kitchen = Kitchen.getInstance();
   }
 
-  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+/*  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AssemblyRecipe> siteProcess(@RequestBody Map<String, String> stringMap) {
     String ingredient = stringMap.get("ingredient");
     String instruction = stringMap.get("instruction");
     return ResponseEntity.of(kitchen.processData(ingredient, instruction));
-  }
+  }*/
 }

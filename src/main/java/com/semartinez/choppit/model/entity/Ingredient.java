@@ -61,7 +61,7 @@ public class Ingredient implements FlatIngredient {
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   @ManyToOne(fetch = FetchType.LAZY,
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinColumn(name = "recipe_id", nullable = false)
+  @JoinColumn(name = "recipe", nullable = false)
   @JsonSerialize(as = FlatRecipe.class)
   private Recipe recipe;
 

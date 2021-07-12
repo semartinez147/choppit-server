@@ -30,4 +30,8 @@ public interface FlatAssemblyRecipe {
 
   List<Ingredient> getIngredients();
 
+  String getSampleStep();
+
+  String getSampleIngredient();
+
 }

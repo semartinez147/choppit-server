@@ -1,8 +1,8 @@
 package com.semartinez.choppit.service;
 
-import com.semartinez.choppit.model.controller.exception.ConnectionFailureException;
-import com.semartinez.choppit.model.controller.exception.TooManyMatchesException;
-import com.semartinez.choppit.model.controller.exception.ZeroMatchesException;
+import com.semartinez.choppit.controller.exception.ConnectionFailureException;
+import com.semartinez.choppit.controller.exception.TooManyMatchesException;
+import com.semartinez.choppit.controller.exception.ZeroMatchesException;
 import com.semartinez.choppit.model.entity.AssemblyRecipe;
 import com.semartinez.choppit.model.entity.Ingredient;
 import com.semartinez.choppit.model.entity.Step;
@@ -89,12 +89,18 @@ public class JsoupMachine {
     return Single.fromCallable(new TrimTheFat(wantHtml)).subscribeOn(Schedulers.computation());
   }
 
-  public Optional<AssemblyRecipe> process(String ingredient, String instruction) {
-    return Optional.of(assemble(ingredient, instruction));
+  public Optional<AssemblyRecipe> process(AssemblyRecipe input) {
+    return Optional.of(assemble(input));
   }
 
-  private AssemblyRecipe assemble(String ingredient, String instruction) {
+  private AssemblyRecipe assemble(AssemblyRecipe input) {
     //TODO Error handling: test getClass errors for 0 or >1 result.
+    if (document == null) {
+      document = Document.createShell(input.getUrl());
+      document.select("body").html(input.getReduction().toString());
+    }
+    String ingredient = input.getSampleIngredient();
+    String instruction = input.getSampleStep();
 
     RunIngredients i = new RunIngredients(ingredient);
     RunSteps s = new RunSteps(instruction);
@@ -113,11 +119,10 @@ public class JsoupMachine {
       e.printStackTrace();
     }
 
-    assemblyRecipe.setIngredients(ingredients);
-    assemblyRecipe.setSteps(steps);
-    assemblyRecipe.setRecipeId(0);
+    input.setIngredients(ingredients);
+    input.setSteps(steps);
 
-    return assemblyRecipe;
+    return input;
   }
 
   private class TrimTheFat implements Callable<List<String>> {

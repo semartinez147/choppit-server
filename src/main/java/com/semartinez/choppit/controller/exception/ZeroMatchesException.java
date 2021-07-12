@@ -1,4 +1,4 @@
-package com.semartinez.choppit.model.controller.exception;
+package com.semartinez.choppit.controller.exception;
 
 public class ZeroMatchesException extends RuntimeException {
 
