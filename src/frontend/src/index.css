@@ -5,9 +5,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #282c2e;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App {
+  min-height: 100vh;
+  color: white;
+}
+
+.text-selection ul li {
+  list-style: none;
+  padding:5px 10px;
+  margin: 5px 0;
+  border: 1px solid white ;
+}
+
+#rec-ingredients {
+  border-right: 2px solid white;
+
 }

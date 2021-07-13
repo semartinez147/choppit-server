@@ -1,13 +1,12 @@
+import "bootstrap/dist/css/bootstrap.css"
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './etc/reportWebVitals';
+import {App} from "./App.js";
+import {store} from "./store";
 
-ReactDOM.render(
-    App(), document.getElementById('root'));
-
-
-
+ReactDOM.render(App(store), document.querySelector('#root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

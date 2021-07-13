@@ -7,4 +7,5 @@ module.exports = function(app) {
         changeOrigin: true,
         secure: true,
     }));
+    app.listen(3000)
 };
