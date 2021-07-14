@@ -5,13 +5,20 @@ const kitchenSlice = createSlice({
   name: "assemblyRecipe",
   initialState: {},
   reducers: {
+    getSite: (assemblyRecipe, action) => {
+      return action.payload
+    }
 
   }
 })
 
-export const {} = kitchenSlice.actions
+export const {getSite} = kitchenSlice.actions
 
-export const requestSite = () => async dispatch => {
-  const {data} = await httpConfig.get(`/api/kitchen`)
-  dispatch()
+export const requestSite = (url) => async dispatch => {
+  const {data} = await httpConfig({
+      url:`/api/kitchen/`,
+      data: {url: url}
+})
+  dispatch(getSite(data))
 }
+export default kitchenSlice.reducer
