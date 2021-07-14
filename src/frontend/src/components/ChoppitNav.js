@@ -8,7 +8,7 @@ export const ChoppitNav = () => {
     return (
         <>
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href="/home">
                     <img
                         alt=""
                         src={logo}
