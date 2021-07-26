@@ -24,11 +24,11 @@ public class Kitchen {
     UrlValidator validator = new UrlValidator();
     if (validator.isValid(url.trim())) {
       validUrl = url;
-      Log.info("valid url: ", validUrl);
     } else {
       return null;
     }
-    return machine.generateStrings(validUrl, wantHtml);
+    AssemblyRecipe assemblyRecipe = machine.generateStrings(validUrl, wantHtml);
+    return assemblyRecipe;
   }
 
   public ResponseEntity<AssemblyRecipe> processData(AssemblyRecipe input) {

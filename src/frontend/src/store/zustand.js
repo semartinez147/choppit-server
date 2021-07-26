@@ -1,7 +1,7 @@
 import create from 'zustand'
 import {httpConfig} from "../utils/httpConfig";
 
-const useStore = create(set => ({
+export const useStore = create(set => ({
   recipe: {
     recipeId: 0,
     title: '',
@@ -22,17 +22,40 @@ const useStore = create(set => ({
     sampleIngredient: ''
   },
   setRecipe: (newRecipe) => set(state => ({recipe: newRecipe})),
-  setAssemblyRecipe: (newAssemblyRecipe) => set(state => ({assemblyRecipe: newAssemblyRecipe})),
+  setAssemblyRecipe: (newAssemblyRecipe) => set(
+      state => ({assemblyRecipe: newAssemblyRecipe})),
 
-  requestReduction: async (url) =>  {
+  requestReduction: async (url) => {
+    console.log("requestReduction")
     const response = await httpConfig({
       method: 'post',
       url: '/api/kitchen/',
-      data: {url: url}
+      data: {url: url, wantHtml: true}
     })
 
-    set({assemblyRecipe: response.data})
+    console.log('response', response)
+    if (response.status === 200) {
+      console.log("setting recipe")
+      set({assemblyRecipe: await response.data})
+    }
+
   },
+  //
+  // requestReduction: async (url) => {
+  //   console.log("requestReduction")
+  //   await httpConfig({
+  //     method: 'post',
+  //     url: '/api/kitchen/',
+  //     data: {url: url, wantHtml: true}
+  //   }).then(response => {
+  //     console.log('response', response)
+  //         if (response.status === 200) {
+  //           console.log("setting recipe")
+  //           set({assemblyRecipe: response.data})
+  //         }
+  //       }
+  //   )
+  // },
 
   requestSimmer: async (assemblyRecipe) => {
     const response = await httpConfig({

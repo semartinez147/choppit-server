@@ -122,7 +122,12 @@ public class AssemblyRecipe implements FlatAssemblyRecipe {
     this.sampleIngredient = sampleIngredient;
   }
 
-/*
+  @Override
+  public String toString() {
+    return "url:" + this.url + "\n title: " + this.title + "\n reduction: " + this.reduction;
+  }
+
+  /*
   public URI getHref() {
     return entityLinks.linkForItemResource(Ingredient.class, recipeId).toUri();
   }

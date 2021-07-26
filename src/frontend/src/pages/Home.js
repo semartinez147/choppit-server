@@ -1,5 +1,5 @@
 import logo from "../images/choppit-logo.svg"
-
+import {useHistory} from "react-router-dom";
 import '../Home.css';
 import {ChoppitNav} from "../components/ChoppitNav";
 import {useFormik, Formik} from "formik";
@@ -13,6 +13,8 @@ function Home() {
         <Container className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
           <p>Welcome to Choppit Server. There isn't much here yet.</p>
+          <p>For testing:</p>
+          <i>https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046</i>
         </Container>
         <Container>
           <Row>
@@ -57,17 +59,17 @@ function Home() {
 export default Home;
 
 const UrlField = () => {
+  const history = useHistory()
   return (
       <Formik
           initialValues={{url: ""}}
           onSubmit={(values, {setSubmitting, resetForm}) => {
             setSubmitting(true);
 
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              resetForm();
-              setSubmitting(false);
-            }, 500);
+            history.push({
+              pathname: '/select',
+              state: {url: values.url}
+            })
           }}
       >
 

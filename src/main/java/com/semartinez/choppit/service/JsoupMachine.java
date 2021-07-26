@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class JsoupMachine {
   private final Executor networkPool;
   private Document document;
 
-  private final Logger machineLogger = Logger.getLogger("machine logger");
+  private final Logger machineLogger = Logger.getLogger("machineLog");
 
 
   JsoupMachine() {
@@ -69,7 +70,7 @@ public class JsoupMachine {
       }
     })
         .subscribeOn(Schedulers.from(networkPool))
-        .doOnError((e) -> machineLogger.severe(e.getMessage()));
+        .doOnError((e) -> machineLogger.severe("Line 73" + e.getMessage()));
   }
 
 
@@ -79,14 +80,19 @@ public class JsoupMachine {
     assemblyRecipe = new AssemblyRecipe();
     assemblyRecipe.setUrl(document.location());
     assemblyRecipe.setTitle(document.title());
-    prepare(wantHtml).subscribeOn(Schedulers.computation()).doOnSuccess(assemblyRecipe::setReduction)
+    prepare(wantHtml).subscribeOn(Schedulers.computation())
+        .doOnSuccess(assemblyRecipe::setReduction)
+//        .subscribe();
         .blockingSubscribe();
-    machineLogger.info(assemblyRecipe.getReduction().toString());
     return assemblyRecipe;
   }
 
   public Single<List<String>> prepare(boolean wantHtml) {
-    return Single.fromCallable(new TrimTheFat(wantHtml)).subscribeOn(Schedulers.computation());
+    return Single.fromCallable(new TrimTheFat(wantHtml))
+        .doOnError(e -> {
+      machineLogger.severe("null pointer - ");
+      machineLogger.severe(Arrays.toString(e.getStackTrace()));
+    }).subscribeOn(Schedulers.computation());
   }
 
   public Optional<AssemblyRecipe> process(AssemblyRecipe input) {
