@@ -32,10 +32,10 @@ public class KitchenController {
 
   @ResponseBody
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  public AssemblyRecipe siteReduction(@RequestBody Request request) {
-    Log.info("kitchenCon", "got url: " + request.url + "wantHtml: " + request.wantHtml);
-    return kitchen.reduce(request.url, request.wantHtml);
+  public ResponseEntity<AssemblyRecipe> siteReduction(@RequestBody Request request) {
+    AssemblyRecipe recipe = kitchen.reduce(request.url, request.wantHtml);
+
+    return new ResponseEntity<>(recipe, HttpStatus.valueOf(202));
   }
 
   @ResponseBody

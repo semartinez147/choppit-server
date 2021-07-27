@@ -2,8 +2,14 @@ import {ChoppitNav} from "../components/ChoppitNav";
 import React, {useState} from "react";
 import {Button, Col, Container, Form, Row, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 import PickerModal from "../components/PickerModal";
+import {useLocation} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import {requestSite} from "../store/kitchen";
+import {logDOM} from "@testing-library/react";
 
 function Select() {
+    const url = useLocation().state.url
+    const dispatch = useDispatch()
 
     const [radioValue, setRadioValue] = useState(true);
 
@@ -12,8 +18,15 @@ function Select() {
         // change selection method
     }
 
+    const initialEffects = url => {
+        dispatch(requestSite(url))
+    }
+    React.useEffect(initialEffects, [dispatch])
+    const assemblyRecipe = useSelector(state => state.assemblyRecipe)
+
     return (
         <>
+            {() => console.log(assemblyRecipe)}
             <ChoppitNav/>
             <div className="App">
                 <Container className="explainer py-2">
