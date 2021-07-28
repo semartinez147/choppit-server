@@ -4,7 +4,10 @@ import {Formik} from "formik";
 
 
 function PickerModal(props) {
-    const text = props.text
+    let text = props.text
+    if (text.length >= 50) {
+        text = text.substring(0,50) + ' ...'
+    }
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
 
@@ -21,7 +24,7 @@ function PickerModal(props) {
                 <Modal.Title className='bg-dark text-white'>Select Text</Modal.Title>
             </Modal.Header>
             <Modal.Body className='bg-dark text-white'>
-                <PickerForm/>
+                <PickerForm text={props.text}/>
             </Modal.Body>
         </Modal>
     </>)
@@ -30,9 +33,8 @@ function PickerModal(props) {
 export default PickerModal
 
 
-function PickerForm() {
-
-    const pickerForm = {inputText: ''}
+function PickerForm(props) {
+    const pickerForm = {inputText: props.text}
     const submitPicker = () => {}
     return (
         <>
@@ -59,12 +61,11 @@ const PickerFormContent = (props) => {
         handleSubmit,
         handleReset
     } = props;
-
     return (
         <>
         <Form id='textPicker' className='text-center'>
             <Row><Col>Is this text from an ingredient, or instructions?</Col></Row>
-            <Row><Col><Form.Control plaintext readOnly/></Col></Row>
+            <Row><Col><Form.Control as='textarea' plaintext disabled id='inputText' name='inputText' style={{height: 'max-content', resize: 'none'}} className='form-control-lg lead text-white text-center my-4' value={values.inputText}/></Col></Row>
             <Row><Col><Button>Ingredient</Button></Col><Col><Button>Instruction</Button></Col></Row>
         </Form>
         </>

@@ -2,9 +2,12 @@ import logo from "../images/choppit-logo.svg"
 import {useHistory} from "react-router-dom";
 import '../Home.css';
 import {ChoppitNav} from "../components/ChoppitNav";
-import {useFormik, Formik} from "formik";
+import {Formik} from "formik";
 import React from "react";
 import {Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
+import {requestSite} from "../store/kitchen";
+import {useDispatch} from "react-redux";
+import * as Yup from "../../node_modules/yup";
 
 function Home() {
   return (
@@ -13,8 +16,6 @@ function Home() {
         <Container className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
           <p>Welcome to Choppit Server. There isn't much here yet.</p>
-          <p>For testing:</p>
-          <i>https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046</i>
         </Container>
         <Container>
           <Row>
@@ -59,18 +60,28 @@ function Home() {
 export default Home;
 
 const UrlField = () => {
+  const dispatch = useDispatch()
+
   const history = useHistory()
+  const navigate = () => {
+    history.push({pathname: '/select'})
+  }
+  const validator = Yup.object().shape({
+    searchText: Yup.string()
+    .url('not a valid url')
+    .required("address is required"),
+
+  });
   return (
       <Formik
-          initialValues={{url: ""}}
+          initialValues={{url: "https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046"}}
           onSubmit={(values, {setSubmitting, resetForm}) => {
             setSubmitting(true);
+            resetForm()
+            dispatch(requestSite(values.url, navigate))
 
-            history.push({
-              pathname: '/select',
-              state: {url: values.url}
-            })
           }}
+          // validationSchema={validator}
       >
 
         {({

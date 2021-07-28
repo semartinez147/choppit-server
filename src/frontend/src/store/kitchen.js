@@ -3,23 +3,29 @@ import {httpConfig} from "../utils/httpConfig";
 
 const kitchenSlice = createSlice({
   name: "assemblyRecipe",
-  initialState: null,
+  initialState: {},
   reducers: {
-    getReduction: (assemblyRecipe, action) => {
+    sendOrder: (assemblyRecipe, action) => {
       return action.payload
     }
 
   }
 })
 
-export const {getReduction} = kitchenSlice.actions
+export const {sendOrder} = kitchenSlice.actions
 
-export const requestSite = (url) => async dispatch => {
-  const {data} = await httpConfig({
-    method: 'post',
-    url: `/api/kitchen/`,
-    data: {url: url, wantHtml: true}
-  })
-  dispatch(getReduction(data))
+export const requestSite = (url, navigate) => async dispatch => {
+
+  await httpConfig.post(
+      `/api/kitchen/`,
+      {url: url, wantHtml: true})
+  .then(response => {
+    if (response.status < 300) {
+      console.log('store received:', response)
+      dispatch(sendOrder(response.data))
+      navigate()
+    }
+  });
+
 }
 export default kitchenSlice.reducer
