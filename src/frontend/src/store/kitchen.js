@@ -21,7 +21,6 @@ export const requestSite = (url, navigate) => async dispatch => {
       {url: url, wantHtml: true})
   .then(response => {
     if (response.status < 300) {
-      console.log('store received:', response)
       dispatch(sendOrder(response.data))
       navigate()
     }

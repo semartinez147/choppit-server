@@ -34,13 +34,17 @@ export default PickerModal
 
 
 function PickerForm(props) {
-    const pickerForm = {inputText: props.text}
-    const submitPicker = () => {}
+    const {text, setInstruction, setIngredient} = props
+    const pickerForm = {inputText: text}
+    const submitPicker = (e) => {
+        console.log(e.target)}
     return (
         <>
             <Formik
                 initialValues={pickerForm}
                 onSubmit={submitPicker}
+                setInstruction={setInstruction}
+                setIngredient={setIngredient}
             >
                 {PickerFormContent}
             </Formik>
@@ -49,24 +53,14 @@ function PickerForm(props) {
 }
 
 const PickerFormContent = (props) => {
-    const {
-        status,
-        values,
-        errors,
-        touched,
-        dirty,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        handleReset
-    } = props;
+    console.log(props)
+    const {values, setInstruction, setIngredient} = props;
     return (
         <>
         <Form id='textPicker' className='text-center'>
             <Row><Col>Is this text from an ingredient, or instructions?</Col></Row>
             <Row><Col><Form.Control as='textarea' plaintext disabled id='inputText' name='inputText' style={{height: 'max-content', resize: 'none'}} className='form-control-lg lead text-white text-center my-4' value={values.inputText}/></Col></Row>
-            <Row><Col><Button>Ingredient</Button></Col><Col><Button>Instruction</Button></Col></Row>
+            <Row><Col><Button onClick={setIngredient(values.inputText)}>Ingredient</Button></Col><Col><Button onClick={setInstruction(values.inputText)}>Instruction</Button></Col></Row>
         </Form>
         </>
     )

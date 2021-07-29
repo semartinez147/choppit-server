@@ -11,16 +11,19 @@ import {
 } from "react-bootstrap";
 import PickerModal from "../components/PickerModal";
 import {useSelector} from "react-redux";
-
+import {Formik} from "formik";
+import {logDOM} from "@testing-library/react";
 
 function Select() {
 
   const [radioValue, setRadioValue] = useState(1);
 
-  const changeSelectMethod = (val) => {
+  const [ingredient, setIngredient] = useState('')
+  const [instruction, setInstruction] = useState('')
 
+
+  const changeSelectMethod = (val) => {
     setRadioValue(val)
-    // change selection method
   }
   const initialEffects = async () => {
   }
@@ -73,31 +76,51 @@ function Select() {
               className="text-selection border border-2 border-light rounded my-2"
               style={{minHeight: "20vh"}}>
             <ul>
-              {radioValue === 1? broad.map(el => <PickerModal text={el.innerText}/>) : radioValue === 2? narrow.map(el => <PickerModal text={el.innerText}/>) : smart.map(el => <PickerModal text={el.innerText}/>)}
+              {radioValue === 1? broad.map(el => <PickerModal key={el.innerText} text={el.innerText} setInstruction={setInstruction} setIngredient={setIngredient}/>) : radioValue === 2? narrow.map(el => <PickerModal text={el.innerText}/>) : smart.map(el => <PickerModal text={el.innerText}/>)}
 
             </ul>
           </Container>
           <Container>
-            <Form>
-              <Row>
-                <Col className='mt-2'>
-                  <Form.Group>
-                    <Form.Control type="text" readOnly/>
-                    <Form.Label>Ingredient Text</Form.Label>
-                  </Form.Group>
-                </Col>
-                <Col className='mt-2'>
-                  <Form.Group>
-                    <Form.Control type="text" readOnly/>
-                    <Form.Label>Instruction Text</Form.Label>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row><Col><Button block>Do Go More</Button></Col></Row>
-            </Form>
+            <SelectForm ingredient={ingredient} instruction={instruction}/>
           </Container>
         </div>
       </>
+  )
+}
+
+function SelectForm(props) {
+  const selectForm = {ingredient: props.ingredient, instruction: props.instruction}
+  const submitSelect = () => {}
+  return (
+      <>
+      <Formik
+      initialValues={selectForm}
+      onSubmit={submitSelect}>
+        {SelectFormContent}
+      </Formik>
+      </>
+  )
+}
+
+const SelectFormContent = (props) => {
+  return (
+      <Form id='selectForm'>
+        <Row>
+          <Col className='mt-2'>
+            <Form.Group>
+              <Form.Control type="text" readOnly/>
+              <Form.Label>Ingredient Text</Form.Label>
+            </Form.Group>
+          </Col>
+          <Col className='mt-2'>
+            <Form.Group>
+              <Form.Control type="text" readOnly/>
+              <Form.Label>Instruction Text</Form.Label>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row><Col><Button block>Do Go More</Button></Col></Row>
+      </Form>
   )
 }
 
