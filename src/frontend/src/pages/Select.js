@@ -10,9 +10,8 @@ import {
   ToggleButtonGroup
 } from "react-bootstrap";
 import PickerModal from "../components/PickerModal";
-import {useSelector} from "react-redux";
 import {Formik} from "formik";
-import {logDOM} from "@testing-library/react";
+import {zustand} from '../store/zustand'
 
 function Select() {
 
@@ -25,12 +24,7 @@ function Select() {
   const changeSelectMethod = (val) => {
     setRadioValue(val)
   }
-  const initialEffects = async () => {
-  }
-
-  React.useEffect(initialEffects)
-  const assemblyRecipe = useSelector(
-      state => state.kitchen ? state.kitchen : null)
+  const assemblyRecipe = zustand(state => state.assemblyRecipe)
 
   const menu = document.createRange().createContextualFragment(assemblyRecipe.reduction.toString())
   let broad = []

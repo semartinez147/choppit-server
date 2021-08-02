@@ -1,7 +1,7 @@
 import create from 'zustand'
 import {httpConfig} from "../utils/httpConfig";
 
-export const useStore = create(set => ({
+export const zustand = create(set => ({
   recipe: {
     recipeId: 0,
     title: '',
@@ -25,7 +25,7 @@ export const useStore = create(set => ({
   setAssemblyRecipe: (newAssemblyRecipe) => set(
       state => ({assemblyRecipe: newAssemblyRecipe})),
 
-  requestReduction: async (url) => {
+  requestReduction: async (url, navigate) => {
     console.log("requestReduction")
     const response = await httpConfig({
       method: 'post',
@@ -36,7 +36,8 @@ export const useStore = create(set => ({
     console.log('response', response)
     if (response.status === 200) {
       console.log("setting recipe")
-      set({assemblyRecipe: await response.data})
+      set({assemblyRecipe: response.data})
+      navigate()
     }
 
   },

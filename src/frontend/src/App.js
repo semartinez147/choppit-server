@@ -6,11 +6,9 @@ import Select from "./pages/Select";
 import Recipe from "./pages/Recipe";
 import Edit from "./pages/Edit";
 import Cookbook from "./pages/Cookbook";
-import {Provider} from "react-redux";
 
-export const App = (store) => (
+export const App = () => (
     <>
-      <Provider store={store}>
       <BrowserRouter>
         <Switch>
           <Route exact path={['/', '/home']} component={Home}/>
@@ -20,6 +18,5 @@ export const App = (store) => (
           <Route exact path="/cookbook" component={Cookbook}/>
         </Switch>
       </BrowserRouter>
-    </Provider>
     </>
 )

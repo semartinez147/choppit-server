@@ -6,8 +6,8 @@ import {Formik} from "formik";
 import React from "react";
 import {Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
 import {requestSite} from "../store/kitchen";
-import {useDispatch} from "react-redux";
 import * as Yup from "../../node_modules/yup";
+import { zustand } from '../store/zustand'
 
 function Home() {
   return (
@@ -60,7 +60,6 @@ function Home() {
 export default Home;
 
 const UrlField = () => {
-  const dispatch = useDispatch()
 
   const history = useHistory()
   const navigate = () => {
@@ -78,8 +77,8 @@ const UrlField = () => {
           onSubmit={(values, {setSubmitting, resetForm}) => {
             setSubmitting(true);
             resetForm()
-            dispatch(requestSite(values.url, navigate))
-
+            // zustand(state => state.requestReduction(values.url, navigate))
+            zustand.getState().requestReduction(values.url, navigate)
           }}
           // validationSchema={validator}
       >
